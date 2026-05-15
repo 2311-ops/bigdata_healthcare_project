@@ -1,0 +1,183 @@
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.7.8
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+    healthcheck:
+      test: ["CMD-SHELL", "bash -lc 'echo >/dev/tcp/localhost/2181'"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+    restart: unless-stopped
+
+  kafka:
+    image: confluentinc/cp-kafka:7.7.8
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "bash -lc 'echo >/dev/tcp/localhost/9092'"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 30s
+    restart: unless-stopped
+
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    environment:
+      CLUSTER_NAME: healthcare-hdfs
+      CORE_CONF_fs_defaultFS: hdfs://namenode:8020
+      CORE_CONF_hadoop_http_staticuser_user: root
+      HDFS_CONF_dfs_namenode_name_dir: file:///hadoop/dfs/name
+      HDFS_CONF_dfs_permissions_enabled: "false"
+      HDFS_CONF_dfs_replication: 1
+    volumes:
+      - namenode_data:/hadoop/dfs/name
+    healthcheck:
+      test: ["CMD-SHELL", "hdfs dfs -ls / >/dev/null 2>&1"]
+      interval: 20s
+      timeout: 10s
+      retries: 20
+      start_period: 40s
+    restart: unless-stopped
+
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    depends_on:
+      - namenode
+    environment:
+      CORE_CONF_fs_defaultFS: hdfs://namenode:8020
+      CORE_CONF_hadoop_http_staticuser_user: root
+      HDFS_CONF_dfs_datanode_data_dir: file:///hadoop/dfs/data
+      HDFS_CONF_dfs_permissions_enabled: "false"
+      HDFS_CONF_dfs_replication: 1
+    volumes:
+      - datanode_data:/hadoop/dfs/data
+    healthcheck:
+      test: ["CMD-SHELL", "hdfs dfs -ls / >/dev/null 2>&1"]
+      interval: 20s
+      timeout: 10s
+      retries: 20
+      start_period: 40s
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: healthcare_dw
+      POSTGRES_USER: healthcare
+      POSTGRES_PASSWORD: healthcare123
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/001-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U healthcare -d healthcare_dw"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
+
+  spark-master:
+    image: bde2020/spark-master:3.3.0-hadoop3.3
+    depends_on:
+      namenode:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      INIT_DAEMON_STEP: setup_spark
+      HDFS_URI: hdfs://namenode:8020
+      POSTGRES_JDBC_URL: jdbc:postgresql://postgres:5432/healthcare_dw
+      POSTGRES_USER: healthcare
+      POSTGRES_PASSWORD: healthcare123
+    volumes:
+      - ./:/workspace
+      - spark_master_data:/tmp
+    restart: unless-stopped
+
+  spark-worker:
+    image: bde2020/spark-worker:3.3.0-hadoop3.3
+    depends_on:
+      spark-master:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      SPARK_MASTER: spark://spark-master:7077
+    volumes:
+      - ./:/workspace
+      - spark_worker_data:/tmp
+    restart: unless-stopped
+
+  producer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      kafka:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_TOPIC: healthcare_raw
+      OPENFDA_API_URL: https://api.fda.gov/drug/event.json
+    volumes:
+      - ./:/workspace
+    working_dir: /workspace
+    command: ["python", "/workspace/producer/api_healthcare_producer.py"]
+    restart: unless-stopped
+
+  metabase:
+    image: metabase/metabase:v0.50.19
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      JAVA_TIMEZONE: Africa/Cairo
+      MB_JETTY_PORT: 3000
+      MB_DB_FILE: /metabase-data/metabase.db
+    volumes:
+      - metabase_data:/metabase-data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/api/health >/dev/null"]
+      interval: 20s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+    restart: unless-stopped
+
+volumes:
+  zookeeper_data:
+  kafka_data:
+  namenode_data:
+  datanode_data:
+  postgres_data:
+  spark_master_data:
+  spark_worker_data:
+  metabase_data:
