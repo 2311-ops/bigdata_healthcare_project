@@ -1,0 +1,262 @@
+
+--- PAGE 1 ---
+CSCI461: Introduction to Big Data: Project Rubric 
+ 
+Spring2026 
+ 
+Note: Description of project phases is the baseline; examples are just a 
+starting point to help you visualize  the idea for your own project.  You can 
+adjust but you have to follow the basic outline of the project.  Project Total 
+Marks is 25. 
+ 
+1 Phase #1: Project Idea, Objective, and Dataset 
+• Project Idea: 
+A well-constructed project idea is the foundation of your big data 
+project. It should clearly articulate  the problem you intend to address, 
+the significance of this problem in the context of big data, and how 
+your project aims to provide a solution or insight. Innovativeness 
+and originality are key here, as it is a focus on real -world applicability. 
+Provide a summary of the project’s objectives and scope. 
+– Examples: 
+∗ Developing a real -time recommendation system for an e-commerce 
+platform, utilizing Apache Hadoop for distributed data processing. 
+∗ Analyzing healthcare data to predict disease outbreaks and 
+improve resource allocation, employing Apache Spark for data 
+analytics. 
+∗ Creating a predictive maintenance system for manufacturing 
+using sensor data and Apache Hadoop for data storage and 
+processing. 
+∗ Optimizing energy  consumption in smart buildings through  
+data-driven insights, leveraging Apache Spark for real -time 
+analytics. 
+∗ Implementing sentiment analysis on social media data to 
+gauge public opinion, with Apache Hadoop managing the 
+large dataset. 
+
+--- PAGE 2 ---
+ 
+ 
+– Paper Section Reference: 
+Introduction: Introduce the project idea, its significance, and its 
+alignment with broader big data challenges. 
+• Objective: 
+A good objective should be specific, measurable, achievable, relevant,  
+and time-bound (SMART). Define what success looks like for your 
+project and specify how you will measure it.  Make sure the objectives 
+align with the project idea and are realistically attainable within the 
+given resources and timeline. 
+– Examples: 
+∗ To achieve a 20% increase in sales revenue within six  months 
+by delivering personalized product recommendations using 
+Apache Spark. 
+∗ To reduce hospital readmission rates by 15% through early 
+disease detection using Apache Hadoop for processing 
+electronic health records. 
+∗ To decrease downtime in manufacturing by 30% by predicting 
+machine failures using Apache Spark for predictive  
+maintenance. 
+∗ To achieve a 15% reduction in energy costs by optimizing 
+HVAC systems with real -time analytics powered by Apache 
+Spark. 
+∗ To identify trends and influencers in public sentiment for 
+marketing campaigns, leading to a 10%  increase in 
+engagement using Apache Hadoop for data analysis. 
+– Paper Section Reference: 
+Introduction: Include a clear problem statement and specific 
+project objectives, along with success criteria. 
+• Dataset: 
+The choice of dataset is critical to the success of your project. Ex-
+plain why you selected a particular dataset and how it relates to your 
+project idea and objectives. Provide details on the dataset’s source, 
+size, format, and any preprocessing steps that may be required.  Make 
+sure the dataset is accessible and legally usable. 
+– Examples: 
+∗ Utilizing e-commerce transaction data from a company’s database, 
+stored in HDFS (Hadoop Distributed File System). 
+
+--- PAGE 3 ---
+ 
+ 
+∗ Accessing electronic health records from a hospital’s database, 
+pre-processing and storing them in Apache Hadoop’s HBase. 
+∗ Collecting sensor data from manufacturing equipment in real-
+time and storing it in HDFS. 
+∗ Gathering IoT data from smart buildings and storing it in 
+Apache Kafka for subsequent analysis with Apache Spark. 
+∗ Extracting social media posts via web scraping and storing 
+them in HDFS for sentiment analysis. 
+– Paper Section Reference: 
+Introduction: Mention the dataset’s relevance, description, and 
+source. 
+ 
+2 Phase #2: Project Planning, Design, Data Life-
+cycle, and Project Paper - Part 1 
+• Project Planning: 
+In project planning, create a detailed roadmap for your big data project. 
+This should include a project timeline with milestones, resource allocation 
+(budget, hardware, software, personnel), and a risk assessment that 
+identifies potential obstacles and mitigation strategies. 
+– Examples: 
+∗ Create a Gantt chart with clear timelines for data collection, 
+preprocessing, modeling, and deployment, using Apache 
+Hadoop and Apache Spark as central components. 
+∗ Allocate a budget for cloud -based Hadoop and Spark clusters, 
+outlining the expected costs and resource scaling strategies. 
+∗ Identify risks such as data breaches,  system failures, and bud-
+get overruns and outline mitigation plans, like encryption for 
+data security. 
+– Paper Section Reference: 
+Methodology: Provide a comprehensive project plan that 
+includes milestones, timelines, and resource allocation. 
+• Design: 
+Describe the architectural design of your big data solution. Explain 
+why you chose specific technologies and how  they align with your 
+project objectives. Discuss scalability and flexibility considerations 
+in your design. 
+
+--- PAGE 4 ---
+ 
+ 
+– Examples: 
+∗ Design a distributed system with Apache Hadoop’s 
+MapReduce for data preprocessing and Apache Spark for 
+real-time recommendation calculations. 
+∗ Select Apache Kafka for real -time data ingestion, ensuring 
+compatibility with Spark for data processing. 
+∗  Ensure system scalability by using Hadoop’s HDFS for data 
+storage, accommodating large volumes of transaction data. 
+– Paper Section Reference: 
+Methodology: Elaborate on the system architecture and 
+technology stack, justifying your choices. 
+• Data Lifecycle: 
+The data lifecycle is crucial in ensuring data quality and security. Ex-
+plain how data is acquired, stored, processed, and visualized in your 
+project. Include data flow diagrams and discuss measures taken to  
+protect sensitive data. 
+– Examples: 
+∗ Acquire e-commerce transaction data through API 
+integration, store it in HDFS, preprocess with Spark, and 
+visualize trends with Apache Zeppelin. 
+∗ Collect electronic health records through secure channels, 
+store them in Apache HBase, and use Spark for real -time 
+analysis with Apache Spark Streaming. 
+∗ Implement data encryption and access controls in HDFS to 
+secure sensitive manufacturing data, perform batch 
+processing with MapReduce, and visualize insights with 
+Apache Superset. 
+– Paper Section Reference: 
+Methodology: Detail the data acquisition, storage, processing, 
+and visualization stages, emphasizing data security and privacy. 
+• Project Paper - Part 1: 
+In the IEEE -format paper’s introduction, provide a clear and concise 
+overview of your project.  Include the problem statement, objectives, 
+and a brief description of your project design and the dataset you’ll be 
+using. 
+– Examples: 
+
+--- PAGE 5 ---
+ 
+ 
+∗ In the IEEE-format paper’s introduction, provide an overview 
+of the project’s architecture, mentioning the use of Apache 
+Hadoop for data storage and preprocessing and Apache Spark 
+for real-time analytics. 
+– Paper Section Reference: 
+Introduction: Introduce the project idea, problem statement, 
+objectives, and a high-level overview of the project’s design. 
+ 
+3 Phase #3: Data Pre -Processing, Methodology, 
+Contribution to the Community, and Project 
+Paper - Part 2 
+• Data Pre-Processing: 
+Data pre -processing is crucial for ensuring the quality and reliability of 
+your data. Describe in detail the  steps you took to clean and prepare 
+your dataset. Address how you handle missing data, outliers, and 
+noise, and explain any data transformation and feature engineering. 
+– Examples: 
+∗ Clean e-commerce transaction data by handling missing 
+values and outliers, leveraging Apache Spark’s DataFrame 
+API. 
+∗ Impute missing health record values using Spark’s MLlib, 
+detect anomalies, and normalize data for analysis. 
+∗ Identify risks such as data breaches,  system failures, and bud-
+get overruns and outline mitigation plans, like encryption for 
+data security. 
+∗ Remove outliers from sensor data using Spark’s statistical 
+functions, transform data into appropriate formats for  
+modeling. 
+∗ Aggregate IoT data into meaningful features, scaling values 
+to a common range for clustering analysis. 
+∗ Preprocess social media text data by tokenization, removing 
+stop words, and performing sentiment analysis using Spark’s 
+NLP libraries. 
+– Paper Section Reference: 
+Methodology: Provide a comprehensive description of data 
+preprocessing steps, including methods for handling missing data, 
+outlier detection, and feature engineering. 
+
+--- PAGE 6 ---
+ 
+ 
+• Methodology: 
+In this section, go deep into the analytical methods and algorithms 
+you employed. Explain why you chose specific methods, their 
+implementation, and any optimizations you made. Include code snippets, 
+parameters used, and any special considerations for big data. 
+– Examples: 
+∗  Utilize  Apache  Spark’s MLlib for building a collaborative 
+filtering recommendation model with ALS. 
+∗ Employ Spark’s GraphX for healthcare network analysis to 
+detect disease spread patterns. 
+∗ Implement a machine learning pipeline in Spark for predictive 
+maintenance, combining feature engineering and ensemble 
+models. 
+∗ Apply Spark’s MLlib to develop a time series forecasting 
+model for energy consumption optimization. 
+∗  Use Spark’s NLP libraries for topic modeling and sentiment 
+analysis of social media data. 
+– Paper Section Reference: 
+Methodology: Elaborate on the algorithms used, justify their se-
+lection, and provide implementation details. 
+• Contribution to the Community: 
+Explain how your project benefits the broader community or industry. 
+If you make open-source contributions, discuss them.  Address any 
+ethical considerations and social impact. Provide evidence of how 
+your work can be utilized or built upon by others. 
+– Examples: 
+∗ Contribute the recommendation model’s source code and 
+documentation to an open -source project, facilitating its 
+adoption by other e-commerce platforms. 
+∗ Organize workshops on healthcare analytics with Spark, 
+sharing best practices and code snippets with the 
+community. 
+∗ Publish a white paper addressing ethical considerations in 
+predictive maintenance and share insights on industry 
+forums. 
+∗ Collaborate with environmental organizations to provide  
+energy optimization recommendations based on the 
+project’s findings. 
+∗ Develop a sentiment analysis library for social media data 
+processing in Spark and release it as open-source software. 
+
+--- PAGE 7 ---
+ 
+ 
+– Paper Section Reference: 
+Discussion: Discuss the project’s contribution to the community, 
+including open-source contributions and ethical considerations. 
+• Project Paper - Part 2: 
+In the results and discussion section of the IEEE -format paper, present 
+detailed findings from the Spark-based analysis, including 
+visualizations, model performance metrics, and insights into the 
+dataset. Discuss the broader implications of your work and its 
+potential impact on the community and industry. 
+– Examples: 
+∗ In the results and discussion section of the IEEE-format 
+paper, present your findings in a clear and structured 
+manner. Interpret the results and discuss their significance in  
+the con- text of your project’s objectives and the broader 
+field of big data. 
+– Paper Section Reference: 
+Results and Discussion: Present your findings and discuss their 
+implications in detail. 

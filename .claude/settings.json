@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(python -c ' *)",
-      "Bash(python -c \"import os; p=r'c:\\\\Users\\\\nowyo\\\\OneDrive - Nile University\\\\Attachments\\\\year 3 sem 2\\\\intro to bigdata\\\\bigdata_healthcare_project\\\\docs\\\\Healthcare_Analytics_Presentation.pptx'; print\\('EXISTS' if os.path.exists\\(p\\) else 'MISSING'\\); print\\(f'{os.path.getsize\\(p\\):,} bytes'\\)\")"
-    ]
-  }
-}
