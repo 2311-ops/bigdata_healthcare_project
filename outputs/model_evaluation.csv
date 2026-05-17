@@ -1,0 +1,5 @@
+﻿id,model_name,model_version,metric_name,metric_value,split_name,trained_at
+1,rule_based_risk_scorer,20260516230419,accuracy,1,rule_based,2026-05-16 23:04:34.575224+00
+2,rule_based_risk_scorer,20260516230419,f1_score,1,rule_based,2026-05-16 23:04:34.577558+00
+3,rule_based_risk_scorer,20260516230419,recall,1,rule_based,2026-05-16 23:04:34.579505+00
+4,rule_based_risk_scorer,20260516230419,precision,1,rule_based,2026-05-16 23:04:34.597882+00
