@@ -52,6 +52,8 @@ This paper makes the following contributions:
     \item A thorough treatment of the ethical constraints—patient privacy, algorithmic fairness, and clinical use limitations—that govern deployment of such a system.
 \end{itemize}
 
+The primary dataset used in this work is the openFDA Drug Adverse Event dataset \cite{openfda}, a publicly accessible, continuously updated collection of spontaneous safety reports submitted to the FDA MedWatch program. For this study, 7,573 unique adverse event records were ingested, each containing structured patient demographics, drug information, reaction terms, and binary seriousness flags. The dataset is US government open data, legally reusable for research, and requires no special access credentials.
+
 The remainder of this paper is structured as follows. Section II reviews related work in healthcare big data analytics and adverse event detection. Section III describes the proposed system architecture, dataset, and pipeline methodology. Section IV presents experimental results and discussion. Section V concludes with a summary and future directions.
 
 %=============================================================
@@ -83,6 +85,32 @@ The bronze-silver-gold (BSG) data lakehouse pattern was formalized by Armbrust e
 %=============================================================
 \section{Methodology}
 %=============================================================
+
+\subsection{Project Planning and Resource Allocation}
+
+The project was executed over a ten-week timeline structured into three academic phases. Phase 1 (Weeks 1--2) covered project ideation, dataset selection, and objective definition. Phase 2 (Weeks 3--5) addressed system design, Docker Compose environment setup, Kafka and HDFS configuration, and the Python producer service. Phase 3 (Weeks 6--10) encompassed the Spark Structured Streaming cleaner, Spark MLlib model training, the reporting layer, and IEEE paper completion.
+
+All software components are free and open-source; the only hardware requirement is a workstation with 8~GB RAM, 4 CPU cores, and 20~GB free disk space, meeting the no-cloud-budget constraint of a university course project. Table~\ref{tab:software} summarises the technology stack.
+
+\begin{table}[htbp]
+\caption{Software Stack and Versions}
+\label{tab:software}
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Tool} & \textbf{Version} & \textbf{Role} \\
+\midrule
+Apache Kafka (Confluent) & 7.7.8  & Message streaming \\
+Apache Hadoop (HDFS)     & 3.2.1  & Distributed storage \\
+Apache Spark (PySpark)   & 3.3.0  & Batch + streaming + ML \\
+PostgreSQL               & 15     & Reporting data warehouse \\
+Metabase                 & 0.50.19 & Self-service BI dashboards \\
+Python                   & 3.11   & Producer + utility scripts \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Key risks and mitigations included: (1) openFDA API rate-limiting, mitigated by configurable sleep intervals and exponential backoff; (2) Docker memory exhaustion on low-RAM machines, mitigated by configurable Spark executor memory and reduced shuffle partitions; and (3) ML class imbalance, mitigated by using weighted F1 as the primary evaluation metric and bootstrap-based Random Forest training.
 
 \subsection{Proposed Architecture}
 
@@ -328,6 +356,22 @@ The risk labels and predictions produced by this platform are derived from spont
 
 \subsubsection{Algorithmic Fairness}
 The training data may reflect systemic biases in the MedWatch reporting system (e.g., certain demographic groups may be over- or under-represented). The risk summary layer disaggregates predictions by patient sex and medicinal product, enabling analysts to detect disparate prediction rates across groups. Future work should include a formal fairness audit using equalised odds metrics across demographic subgroups.
+
+%=============================================================
+\section{Limitations}
+%=============================================================
+
+Several limitations of the current implementation should be acknowledged.
+
+\textbf{Single-node infrastructure.} The development configuration uses a single Kafka broker, a single HDFS datanode, and a single Spark worker. This setup is not fault-tolerant and would not meet production reliability requirements. All three components support horizontal scaling within the same Docker Compose file, but this was not validated in the current evaluation.
+
+\textbf{Rule-based label leakage.} The rule-based risk scorer achieves a perfect F1 score of 1.00 because the target variable (\texttt{risk\_label}) is defined by the same seriousness flags used to derive the label. While this demonstrates internal consistency, it does not generalise to settings where ground-truth labels are unavailable or defined differently.
+
+\textbf{Reporting bias in MedWatch.} The openFDA dataset is a spontaneous reporting system. Serious events are systematically over-reported relative to mild ones, and under-reporting of less severe reactions is well documented in the pharmacovigilance literature. This limits the generalisability of risk probability estimates to absolute population-level risk.
+
+\textbf{Narrative fields excluded.} Adverse event reports contain free-text narrative descriptions that are not exploited by the current feature set. NLP-based feature extraction from these fields could substantially improve model discrimination.
+
+\textbf{Single demographic fairness dimension.} Fairness disaggregation is currently limited to patient sex. Age-group, drug class, and geographic reporting patterns are not analysed, leaving potential disparate impact across other demographic dimensions undetected.
 
 %=============================================================
 \section{Conclusion}

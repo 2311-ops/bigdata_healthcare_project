@@ -9,7 +9,8 @@
       "Bash(python -c \"import sys; print\\(sys.executable\\)\")",
       "Bash(C:\\\\Users\\\\nowyo\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe -c \"from docx import Document; print\\('ok'\\)\")",
       "PowerShell(& \"C:\\\\Users\\\\nowyo\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe\" -c \"from docx import Document; print\\('ok'\\)\")",
-      "PowerShell(& \"C:\\\\Users\\\\nowyo\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe\" \"c:\\\\Users\\\\nowyo\\\\OneDrive - Nile University\\\\Attachments\\\\year 3 sem 2\\\\OS\\\\bigdata_healthcare_project\\\\docs\\\\generate_paper.py\" 2>&1)"
+      "PowerShell(& \"C:\\\\Users\\\\nowyo\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe\" \"c:\\\\Users\\\\nowyo\\\\OneDrive - Nile University\\\\Attachments\\\\year 3 sem 2\\\\OS\\\\bigdata_healthcare_project\\\\docs\\\\generate_paper.py\" 2>&1)",
+      "Bash(python -c \"import pptx; print\\(pptx.__version__\\)\")"
     ]
   }
 }
